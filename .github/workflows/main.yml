@@ -20,8 +20,8 @@ jobs:
             password: ${{secrets.DOCKER_PASSWORD}}
         - name: pushed images to Docker hub
           run: |
-            docker tag devopsbarani baranigopal/devoprac:v7
-            docker push baranigopal/devoprac:v7
+            docker tag devopsbarani baranigopal/devoprac:v8
+            docker push baranigopal/devoprac:v8
 
       
         
