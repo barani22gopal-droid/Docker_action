@@ -1,0 +1,14 @@
+name: "Devops github"
+on:
+  push:
+    branches:
+      - main
+  jobs:
+    build:
+        run-on: ubuntu-latest
+      steps:
+       uses: actions/checkout@v2
+      run: docker build -t devopsbarani .
+      run: cat dev.html
+      run: docker run -d --name devopscont -p 8047:80 devopsbarani
+        
