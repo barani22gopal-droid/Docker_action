@@ -11,4 +11,13 @@ jobs:
       run: docker build -t devopsbarani .
       run: cat dev.html
       run: docker run -d --name devopscont -p 8047:80 devopsbarani
+      uses: docker/login-action@v2
+      with:
+        username: ${{secrets.DOCKER_NAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+      run:
+        docker tag devopsbarani baranigopal/devoprac:v6
+        docker push baranigopal/devoprac:v6
+
+      
         
