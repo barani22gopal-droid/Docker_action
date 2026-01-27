@@ -12,8 +12,6 @@ jobs:
         - name: running index.html file
           run: docker build -t devopsbarani .
         - name: running docker container
-          run: cat dev.html
-        - name: displaying files inside runner machine
           run: docker run -d --name devopscont -p 8047:80 devopsbarani
         - name: Docker login
           uses: docker/login-action@v2
