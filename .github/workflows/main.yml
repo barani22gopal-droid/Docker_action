@@ -27,9 +27,9 @@ jobs:
             docker rm -f devops_container
             docker run -d --name devops_container -p 8047:80 devops_image1
             echo "${SUDO_PASSWORD}" | sudo ufw allow 8047 || true
-            docker tag devops_image1 ranimariyasusai/devops_practice:v9
-            docker push ranimariyasusai/devops_practice:v9
-            docker pull ranimariyasusai/devops_practice:v9
+            docker tag devops_image1 ranimariyasusai/devops_practice:v10
+            docker push ranimariyasusai/devops_practice:v10
+            docker pull ranimariyasusai/devops_practice:v10
             docker stop devops_container || true
             docker rm devops_container || true
             docker run -d --name devops_container -p 8047:80 ranimariyasusai/devops_practice:v7
