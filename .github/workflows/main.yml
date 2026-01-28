@@ -1,26 +1,42 @@
-name: "Devops github"
+name: "Real CICD pipeline"
+ 
 on:
   push:
     branches:
-      - main
+      - master
+ 
 jobs:
   build:
-      runs-on: ubuntu-latest
-      steps:
-        - name: copying repository and files inside it to runner
-          uses: actions/checkout@v4
-        - name: running index.html file
-          run: docker build -t devopsbarani .
-        - name: running docker container
-          run: docker run -d --name devopscont -p 8047:80 devopsbarani
-        - name: Docker login
-          uses: docker/login-action@v2
-          with:
-            username: ${{secrets.DOCKER_USERNAME}}
-            password: ${{secrets.DOCKER_PASSWORD}}
-        - name: pushed images to Docker hub
-          run: |
-            docker tag devopsbarani baranigopal/devoprac:v9
-            docker push baranigopal/devoprac:v9
-      
-        
+    runs-on: self-hosted
+    steps:
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Build and run container on VM
+        shell: bash
+        run: |
+          ssh -T -o StrictHostKeyChecking=no ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << EOF
+            echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+            docker info
+            docker ps -a
+            cd /var/www/mywebsite
+            git pull origin master
+            docker build -t devops_image1 .
+            docker stop devops_container
+            docker rm -f devops_container
+            docker run -d --name devops_container -p 8047:80 devops_image1
+            echo "${SUDO_PASSWORD}" | sudo ufw allow 8047 || true
+            docker tag devops_image1 ranimariyasusai/devops_practice:v9
+            docker push ranimariyasusai/devops_practice:v9
+            docker pull ranimariyasusai/devops_practice:v9
+            docker stop devops_container || true
+            docker rm devops_container || true
+            docker run -d --name devops_container -p 8047:80 ranimariyasusai/devops_practice:v7
+          EOF
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
+ 
+ 
