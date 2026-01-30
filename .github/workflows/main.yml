@@ -3,7 +3,7 @@ name: "Real CICD pipeline"
 on:
   push:
     branches:
-      - master
+      - main
  
 jobs:
   build:
