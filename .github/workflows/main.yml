@@ -37,6 +37,5 @@ jobs:
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          SUDO_PASSWORD: ${{secrets.SUDO_PASSWORD}}
  
  
