@@ -32,7 +32,7 @@ jobs:
             docker pull baranigopal/devops_practice:v10
             docker stop devops_container || true
             docker rm devops_container || true
-            docker run -d --name devops_container -p 8047:80 baranigopal/devops_practice:v7
+            docker run -d --name devops_container -p 8047:80 baranigopal/devops_practice:v10
           EOF
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
