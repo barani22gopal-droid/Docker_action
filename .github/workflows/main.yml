@@ -20,7 +20,7 @@ jobs:
             echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
             docker info
             docker ps -a
-            cd /var/www/mywebsite
+            ls
             git pull origin master
             docker build -t devops_image1 .
             docker stop devops_container
